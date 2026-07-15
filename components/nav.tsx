@@ -15,7 +15,7 @@ export function SiteNav() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-paper/85 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 border-b border-line bg-paper/85 backdrop-blur-sm print:hidden">
       <nav className="container-page flex h-16 items-center justify-between gap-4">
         <Link
           href="/"

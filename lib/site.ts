@@ -15,7 +15,7 @@ export const site = {
   url: "https://example.com", // set to your real domain before launch
   socials: {
     github: "https://github.com/yrmfernandez",
-    linkedin: "https://www.linkedin.com/in/", // TODO: add your LinkedIn URL
+    linkedin: "https://www.linkedin.com/in/yrmfernandez/",
     kaggle: "https://www.kaggle.com/", // TODO: add your Kaggle URL
   },
 } as const;
@@ -24,6 +24,5 @@ export const nav = [
   { href: "/projects", label: "Projects" },
   { href: "/about", label: "About" },
   { href: "/resume", label: "Resume" },
-  { href: "/notes", label: "Notes" },
   { href: "/contact", label: "Contact" },
 ] as const;

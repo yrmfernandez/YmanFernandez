@@ -1,0 +1,56 @@
+---
+title: "QuickDecide — A Zero-Friction AI Decision Engine"
+summary: "A stateless AI app that turns a list of options into a scored recommendation with reasoning — no login, no history, no database."
+tags: [genai, nlp]
+stack: [typescript, nextjs, react, groq, zod]
+featured: true
+date: "2025-11-20"
+links:
+  repo: "https://github.com/yrmfernandez/quickdecide"
+  demo: "https://quickdecide.vercel.app"
+metrics:
+  Modes: "3"
+  "LLM agents": "3"
+---
+
+## Context
+
+Choice paralysis is a small, everyday tax on attention. QuickDecide is a
+"zero-friction" AI decision engine: you hand it a set of options and it returns a
+definitive recommendation — a winner, a score, and concise reasoning — without
+asking you to log in, and without storing a database or chat history.
+
+The design constraint was statelessness: everything happens in a single request,
+which keeps it fast, private, and cheap to run.
+
+## Approach
+
+Rather than one big prompt, I built an **agentic pipeline** of three specialized
+LLM agents:
+
+- a **classifier** that reads the decision and figures out what kind it is,
+- a **judge** that scores the options, and
+- a **responder** that crafts the final recommendation and reasoning.
+
+Around that core I added the touches that make it feel considered: three modes
+(Serious, Funny, Instant), a "wildcard" that proposes an unconventional option
+when the given ones are weak, and two contextual sliders that change depending on
+the decision type. Small tools give the model real-world grounding — weather
+lookup, Manila-timezone and date awareness, and cost comparison.
+
+Technically it's **Next.js 15 (App Router) + React 19** with **Groq** via the
+Vercel AI SDK, **Zod** for validation, and **Server Actions** so API keys never
+reach the browser.
+
+## Result
+
+The app ships a clean "receipt" for every decision — winner, tie status, scoring,
+and reasoning — and is deployed on Vercel. It's a compact demonstration of a
+multi-agent LLM pattern that stays stateless and keeps secrets server-side.
+
+## Reflection
+
+The obvious next step is evaluation: right now quality is judged by feel, and I'd
+add a small labeled set of decisions to measure whether the agents actually agree
+with human preferences. I'd also expose *why* the judge scored an option the way
+it did, so the reasoning is auditable rather than just persuasive.

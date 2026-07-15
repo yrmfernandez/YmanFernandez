@@ -150,6 +150,32 @@ h4 {
   padding-inline: clamp(20px, 5vw, 40px);
 }
 
+/* Clean, professional output when printing (mainly the resume). Force a
+   light palette even if the viewer is in dark theme, and drop backgrounds. */
+@media print {
+  :root,
+  :root[data-theme="dark"],
+  :root[data-theme="light"] {
+    --paper: #ffffff;
+    --paper-raised: #ffffff;
+    --ink: #111111;
+    --muted: #444444;
+    --accent: #1e4c40;
+    --accent-strong: #1e4c40;
+    --accent-soft: #eeeeee;
+    --line: #cccccc;
+  }
+  html,
+  body {
+    background: #ffffff;
+    font-size: 12px;
+  }
+  a {
+    color: #111111 !important;
+    text-decoration: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

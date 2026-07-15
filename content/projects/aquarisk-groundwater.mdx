@@ -1,0 +1,57 @@
+---
+title: "AquaRisk — Groundwater Quality Risk Assessment"
+summary: "A triage tool that flags which groundwater wells need lab testing first, using three ML models on 1,106 Telangana samples."
+tags: [ml, classification]
+stack: [python, xgboost, random-forest, isolation-forest, docker]
+featured: true
+date: "2025-09-15"
+links:
+  repo: "https://github.com/yrmfernandez/AquaRisk"
+metrics:
+  "Drinking Macro-F1": "0.670"
+  "Irrigation Macro-F1": "0.735"
+  Samples: "1,106"
+---
+
+## Context
+
+Testing every groundwater well in a lab is slow and expensive. AquaRisk is an
+AI-powered web app that helps **triage** wells instead: given water-chemistry
+inputs, it estimates risk so that the samples most likely to be unsafe get sent
+for laboratory confirmation first, rather than testing everything blindly.
+
+It works from 1,106 post-monsoon samples spanning 33 districts of Telangana,
+India (2018–2020), and produces three separate assessments.
+
+## Approach
+
+I built three models, each answering a different question:
+
+- **Drinking safety** — an XGBoost classifier (Safe / Moderate / High risk),
+  scored against Indian drinking-water standards.
+- **Irrigation suitability** — a Random Forest over ion chemistry, using the USSL
+  classification.
+- **Anomaly detection** — an unsupervised Isolation Forest to flag unusual
+  samples that don't fit the normal distribution.
+
+Two decisions mattered most. First, I **deliberately withheld the labeled
+features** (fluoride, nitrate, TDS, pH, and similar) from the drinking model, so
+it had to learn from the surrounding chemistry rather than memorize the answer.
+Second, I scored on **Macro-F1 rather than accuracy**, because the risk classes
+are heavily imbalanced and accuracy would have rewarded ignoring the rare,
+dangerous cases.
+
+## Result
+
+The drinking-safety model reached a **Macro-F1 of 0.670** and the irrigation model
+**0.735**, with the anomaly detector surfacing outliers for review. Just as
+important, the app is explicit that these are **estimates** — it warns that
+consequential decisions still require lab confirmation, which keeps a screening
+tool honest about what it can and can't promise.
+
+## Reflection
+
+The withheld-feature setup was the right call for integrity but leaves accuracy on
+the table; a version that ingests certified lab readings where available could
+serve both triage and confirmation. I'd also add calibrated probabilities so the
+"test this well first" ranking reflects real confidence, not just a class label.

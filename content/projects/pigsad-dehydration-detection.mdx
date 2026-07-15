@@ -1,0 +1,64 @@
+---
+title: "PIGSaD — Early Dehydration Detection in Pigs from Thermal Images"
+summary: "An offline Android app that classifies pig hydration from thermal images, deployed with a ResNet18 model at 61.3% accuracy."
+tags: [computer-vision, deep-learning, ml]
+stack: [python, pytorch, resnet18, onnx, android, automl]
+featured: true
+date: "2026-05-01"
+links: {}
+metrics:
+  Accuracy: "61.3%"
+  Dataset: "1,934 images"
+  Backbone: "ResNet18"
+---
+
+## Context
+
+Dehydration is one of the hardest problems to catch early in pig farming. Farmers
+usually rely on visible symptoms, but by the time those appear the animal may
+already be seriously dehydrated — hurting growth, raising mortality risk, and
+causing real economic loss for backyard farmers with limited access to
+veterinarians.
+
+PIGSaD (Pig Infrared-based Guided System for Automated Dehydration Detection) was
+my undergraduate thesis: an AI-powered Android application that screens for
+dehydration from **thermal images** instead of visual observation, and runs
+**fully offline** once the model is on the device.
+
+## Approach
+
+When pigs become dehydrated, blood circulation changes and surface temperature
+shifts around regions like the ear base and eye area — often *before* visible
+clinical signs. A thermal camera can pick this up, so I framed the problem as
+classifying a thermal image into **Normal**, **Possible Dehydration**, or
+**Dehydrated**.
+
+- **Data** — collected 1,934 thermal images from 15 pigs at a backyard farm in
+  Calinan, Davao City. Each image was labeled into one of three classes using a
+  Dehydration Index (DI) grounded in veterinary literature.
+- **Experiments, Stage 1** — compared three methods of handling class imbalance
+  to find the best training set.
+- **Experiments, Stage 2** — compared four feature-engineering approaches: raw
+  thermal images, ROI extraction, ROI + CLAHE enhancement, and thermal
+  statistical features.
+- Used an AutoML workflow so the system could search preprocessing and modeling
+  choices rather than hand-tuning a single pipeline.
+
+## Result
+
+The **raw baseline** — unmodified thermal images — outperformed the more elaborate
+feature-engineering approaches, a useful reminder that added complexity has to
+earn its place. The best model used a **ResNet18** backbone and reached roughly
+**61.3% accuracy** with the highest Macro-F1 among the approaches tested.
+
+The trained model was exported to **ONNX** and successfully deployed on an Android
+device for offline inference — closing the loop from data collection to a tool a
+farmer could actually hold.
+
+## Reflection
+
+The headline accuracy has clear room to grow, and the honest next steps are about
+data: more pigs, more farms, and more balanced classes would matter more than a
+fancier model. I'd also validate on animals and conditions never seen in
+training, since generalization — not leaderboard accuracy — is what decides
+whether a screening tool is trustworthy in the field.

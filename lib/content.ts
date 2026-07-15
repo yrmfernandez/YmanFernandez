@@ -1,51 +1,62 @@
 /**
- * Editable profile content — the words that fill the home and about pages.
- * All PLACEHOLDER values; swap in your real details.
+ * Editable profile content — the words that fill the home, about, and resume
+ * pages. Skills reflect the stacks used across the projects; edit freely.
  */
 
 /** Short proof statement shown near the hero CTAs. */
 export const proofStatement =
-  "4 end-to-end data science projects — from raw data to deployed model.";
+  "4 projects spanning computer vision, ML classification, and applied GenAI.";
 
 /** Small factual stats for the proof strip. */
 export const proofPoints: { value: string; label: string }[] = [
-  { value: "2026", label: "B.S. Computer Science" },
-  { value: "4", label: "End-to-end projects" },
+  { value: "2026", label: "BS Computer Science" },
+  { value: "4", label: "Projects shipped" },
   { value: "Data Science", label: "Specialization" },
 ];
 
+/** One-paragraph professional summary (used on the resume and about pages). */
+export const summary =
+  "Computer Science graduate specializing in Data Science, with hands-on experience taking projects end to end — from data collection and modeling to deployed, offline-capable tools. Comfortable across classical ML, deep learning for computer vision, and multi-agent LLM applications.";
+
 export const education = {
   degree: "BS Computer Science — Major in Data Science",
-  school: "Your University", // TODO: add your university
+  school: "University of Southeastern Philippines",
   year: "2026",
   honors: "", // TODO: add honors (e.g. "Cum Laude") if applicable, else leave blank
 };
 
+/** Thesis, shown on about + resume. */
+export const thesis = {
+  title:
+    "PIGSaD: An AI-Powered Mobile Device System for Early Detection and Classification of Dehydration in Pigs Utilizing a Thermal Camera",
+  note: "Thermal-imaging + deep learning; ResNet18 exported to ONNX for offline Android inference.",
+};
+
 export const coursework: string[] = [
   "Machine Learning",
-  "Statistical Inference",
-  "Data Structures & Algorithms",
-  "Database Systems",
   "Deep Learning",
   "Data Mining",
+  "Statistical Inference",
+  "Database Systems",
+  "Data Structures & Algorithms",
 ];
 
 /** Skills grouped by category — scan role-fit in one pass (§04). */
 export const skillGroups: { name: string; items: string[] }[] = [
   {
     name: "Languages",
-    items: ["Python", "SQL", "R", "TypeScript"],
+    items: ["Python", "TypeScript", "JavaScript", "SQL"],
   },
   {
-    name: "ML & Statistics",
-    items: ["scikit-learn", "XGBoost", "PyTorch", "statsmodels", "A/B testing"],
+    name: "ML & Deep Learning",
+    items: ["PyTorch", "scikit-learn", "XGBoost", "Random Forest", "ResNet", "AutoML"],
   },
   {
-    name: "Data Engineering",
-    items: ["pandas", "Airflow", "dbt", "PostgreSQL", "Spark"],
+    name: "GenAI & NLP",
+    items: ["LLMs (Groq)", "Multi-agent pipelines", "RAG", "Prompt engineering"],
   },
   {
-    name: "Tools & MLOps",
-    items: ["Git", "Docker", "FastAPI", "Streamlit", "AWS"],
+    name: "Tools & Deployment",
+    items: ["Docker", "ONNX", "Next.js", "Node / Express", "Vercel", "Git"],
   },
 ];

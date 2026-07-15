@@ -1,0 +1,54 @@
+---
+title: "HireLift — ATS-Friendly Resume Builder"
+summary: "A multi-agent AI pipeline that rewrites resumes to pass ATS screening and tailors them to a target job description."
+tags: [genai, nlp]
+stack: [nodejs, express, groq, javascript]
+featured: false
+date: "2025-10-10"
+links:
+  repo: "https://github.com/yrmfernandez/HireLift"
+metrics:
+  "Agent pipeline": "6 agents"
+  Export: "PDF / DOCX"
+---
+
+## Context
+
+Most resumes are read first by an Applicant Tracking System, not a person — and a
+resume that a human likes can still be filtered out before anyone sees it.
+HireLift is an AI resume builder that generates **ATS-friendly** resumes: upload
+an existing resume or fill out a form, paste a job description, and it produces an
+optimized resume plus preparation guidance and role recommendations.
+
+## Approach
+
+The core is a **multi-agent pipeline**, each agent with one job:
+
+- **Extractor** — parses the job description and the user's details into
+  structured data.
+- **Writer** — drafts an ATS-friendly resume from that structure.
+- **Judge** — evaluates the draft and loops feedback to the writer until it
+  passes.
+- **Coach** — builds a tailored preparation plan for the target role.
+- **Roles** — recommends job titles with fit ratings.
+- plus **helper agents** for skill suggestions and parsing uploaded files.
+
+The Writer–Judge feedback loop is the interesting part: instead of trusting a
+single generation, the draft has to clear an automated reviewer before it ships.
+It's built on **Node.js + Express** with the **Groq API** (running models like
+llama-3.3-70b), a no-build vanilla frontend, and Vercel serverless functions.
+
+## Result
+
+The app produces tailored, ATS-oriented resumes with PDF/DOCX export, saves
+progress in localStorage, offers a light/dark theme, and includes a "mock mode"
+for testing without spending API calls. Deploying it also meant working within
+real platform limits — tuning serverless function timeouts for pipeline runs that
+can exceed 60 seconds, and a 4 MB upload cap to stay under Vercel's constraints.
+
+## Reflection
+
+The Judge currently approves on general quality; a stronger version would score
+the draft against the *specific* job description's keywords and requirements, so
+"ATS-friendly" becomes measurable rather than aspirational. Caching the extractor
+output would also cut both latency and cost on repeat runs.
