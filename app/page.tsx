@@ -1,46 +1,169 @@
+import Link from "next/link";
 import { site } from "@/lib/site";
+import {
+  proofStatement,
+  proofPoints,
+  education,
+  coursework,
+  skillGroups,
+} from "@/lib/content";
+import { getFeaturedProjects } from "@/lib/projects";
+import { ButtonLink } from "@/components/button-link";
+import { ProjectCard } from "@/components/project-card";
+import { HeroPlot } from "@/components/hero-plot";
 
 export default function Home() {
+  const featured = getFeaturedProjects(3);
+
   return (
-    <section className="container-page py-20 sm:py-28">
-      <p className="eyebrow flex items-center gap-3">
-        <span className="inline-block h-px w-6 bg-accent" />
-        {site.role} · Fresh graduate
-      </p>
+    <>
+      {/* ---- Hero ---------------------------------------------------- */}
+      <section className="relative overflow-hidden border-b border-line">
+        <HeroPlot className="pointer-events-none absolute -right-10 top-8 hidden h-64 w-[28rem] opacity-70 lg:block" />
+        <div className="container-page relative py-20 sm:py-28">
+          <p className="eyebrow flex items-center gap-3">
+            <span className="inline-block h-px w-6 bg-accent" />
+            {site.name} · {site.role}
+          </p>
 
-      <h1 className="mt-5 max-w-[16ch] font-serif text-4xl font-semibold leading-[1.08] sm:text-5xl">
-        Hi, I&apos;m {site.name.split(" ")[0]}.
-      </h1>
+          <h1 className="mt-6 max-w-[18ch] font-serif text-4xl font-semibold leading-[1.06] sm:text-5xl md:text-6xl">
+            Turning messy data into models, decisions, and clear stories.
+          </h1>
 
-      <p className="mt-5 max-w-[52ch] text-lg text-muted">{site.tagline}</p>
+          <p className="mt-6 max-w-[54ch] text-lg text-muted">{site.tagline}</p>
 
-      {/* Scaffold notice — replaced by the real home page in the next step. */}
-      <div className="mt-12 max-w-xl border-l-2 border-accent bg-paper-raised px-5 py-4">
-        <div className="eyebrow mb-1.5">Step 1 · Foundation</div>
-        <p className="text-[15px] text-ink">
-          Design system, theme toggle, and shared layout are in place. Try the
-          light/dark toggle in the header. The full home page, projects, and
-          case studies come in the next steps.
-        </p>
-      </div>
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <ButtonLink href="/projects">View projects</ButtonLink>
+            <ButtonLink href="/resume" variant="ghost">
+              Resume
+            </ButtonLink>
+          </div>
 
-      {/* Small palette check strip so the token system is visible at a glance. */}
-      <div className="mt-10 flex flex-wrap gap-2">
-        {[
-          ["Paper", "bg-paper border border-line"],
-          ["Raised", "bg-paper-raised"],
-          ["Ink", "bg-ink"],
-          ["Accent", "bg-accent"],
-          ["Accent soft", "bg-accent-soft"],
-        ].map(([label, cls]) => (
-          <div key={label} className="text-center">
-            <div className={`h-12 w-20 rounded-sm ${cls}`} />
-            <div className="mt-1.5 font-mono text-[10px] text-muted">
-              {label}
+          <p className="mt-8 flex items-center gap-2.5 font-mono text-sm text-muted">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
+            {proofStatement}
+          </p>
+        </div>
+      </section>
+
+      {/* ---- Featured projects -------------------------------------- */}
+      <section className="container-page py-16 sm:py-20">
+        <div className="flex items-end justify-between gap-4">
+          <div>
+            <p className="eyebrow">Selected work</p>
+            <h2 className="mt-2 font-serif text-3xl font-semibold">
+              Featured projects
+            </h2>
+          </div>
+          <Link
+            href="/projects"
+            className="hidden shrink-0 font-mono text-sm text-accent-strong no-underline hover:underline sm:inline"
+          >
+            All projects →
+          </Link>
+        </div>
+
+        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {featured.map((project) => (
+            <ProjectCard key={project.slug} project={project} />
+          ))}
+        </div>
+
+        <Link
+          href="/projects"
+          className="mt-6 inline-block font-mono text-sm text-accent-strong no-underline hover:underline sm:hidden"
+        >
+          All projects →
+        </Link>
+      </section>
+
+      {/* ---- Proof strip -------------------------------------------- */}
+      <section className="border-y border-line bg-paper-raised">
+        <div className="container-page py-14">
+          <div className="grid gap-10 md:grid-cols-[auto_1fr] md:gap-16">
+            {/* Stats */}
+            <div className="flex gap-10">
+              {proofPoints.map((p) => (
+                <div key={p.label}>
+                  <div className="font-serif text-3xl font-semibold text-ink">
+                    {p.value}
+                  </div>
+                  <div className="mt-1 max-w-[12ch] text-sm text-muted">
+                    {p.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Education + coursework */}
+            <div className="md:border-l md:border-line md:pl-16">
+              <p className="eyebrow">Education</p>
+              <p className="mt-2 text-[15px] text-ink">
+                <span className="font-medium">{education.degree}</span>
+                <br />
+                {education.school} · {education.year}
+                {education.honors ? ` · ${education.honors}` : ""}
+              </p>
+
+              <p className="eyebrow mt-6">Relevant coursework</p>
+              <div className="mt-2.5 flex flex-wrap gap-1.5">
+                {coursework.map((c) => (
+                  <span
+                    key={c}
+                    className="rounded-full border border-line px-2.5 py-0.5 font-mono text-[11px] text-muted"
+                  >
+                    {c}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
-        ))}
-      </div>
-    </section>
+        </div>
+      </section>
+
+      {/* ---- Skills -------------------------------------------------- */}
+      <section className="container-page py-16 sm:py-20">
+        <p className="eyebrow">Toolkit</p>
+        <h2 className="mt-2 font-serif text-3xl font-semibold">Skills</h2>
+
+        <div className="mt-8 grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+          {skillGroups.map((group) => (
+            <div key={group.name}>
+              <h3 className="font-mono text-xs uppercase tracking-wider text-accent-strong">
+                {group.name}
+              </h3>
+              <ul className="mt-3 flex flex-col gap-2 border-t border-line pt-3">
+                {group.items.map((item) => (
+                  <li key={item} className="text-[15px] text-ink">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ---- Closing CTA -------------------------------------------- */}
+      <section className="container-page pb-20">
+        <div className="rounded-lg border border-line bg-paper-raised px-8 py-12 text-center">
+          <h2 className="mx-auto max-w-[20ch] font-serif text-3xl font-semibold">
+            Looking for a data scientist to grow with your team?
+          </h2>
+          <p className="mx-auto mt-3 max-w-[46ch] text-muted">
+            I&apos;m open to entry-level and internship roles in data science
+            and analytics.
+          </p>
+          <div className="mt-7 flex flex-wrap justify-center gap-3">
+            <ButtonLink href={`mailto:${site.email}`} external>
+              Get in touch
+            </ButtonLink>
+            <ButtonLink href="/resume" variant="ghost">
+              View resume
+            </ButtonLink>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
