@@ -1,0 +1,47 @@
+---
+title: "Where Did the Revenue Go?"
+summary: "An exec-ready analysis that traced a 14% revenue dip to two underperforming SKUs and a pricing change."
+tags: [analysis, viz]
+stack: [python, sql, plotly]
+featured: true
+date: "2025-11-20"
+links:
+  writeup: "#"
+metrics:
+  Dataset: "2.3M rows"
+---
+
+## Context
+
+A retailer saw quarterly revenue fall 14% and didn't know why. The leadership
+question wasn't "build a model" — it was "explain this, clearly, to people who
+don't read code." This project is about **communication as much as analysis**.
+
+I worked from a 2.3M-row transaction table spanning two years across categories,
+regions, and price points.
+
+## Approach
+
+I treated the dip as a decomposition problem: revenue is price × units, across
+products and regions, so I broke the change down along each axis to find where it
+concentrated.
+
+- Pulled and shaped the data in SQL, keeping the transformations reproducible.
+- Decomposed the year-over-year change by category, region, and SKU to isolate
+  the contributors rather than eyeballing totals.
+- Built a small set of **annotated** Plotly charts — each one makes a single
+  point, with the takeaway written on the chart, not left for the reader to infer.
+
+## Result
+
+Two SKUs and a mid-quarter price increase accounted for the majority of the
+decline; most of the catalog was flat or up. The write-up gave leadership a
+specific, actionable story instead of a scary aggregate number — and pointed to a
+pricing decision they could revisit.
+
+## Reflection
+
+I'd pair this with a lightweight dashboard so the decomposition updates itself
+each quarter, turning a one-off investigation into an ongoing monitor. I'd also
+add a simple significance check to separate real shifts from noise in the
+smaller regional segments.

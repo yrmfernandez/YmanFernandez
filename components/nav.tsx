@@ -21,7 +21,7 @@ export function SiteNav() {
           href="/"
           className="font-serif text-lg font-semibold tracking-tight text-ink no-underline"
         >
-          {site.name}
+          {site.shortName}
           <span className="text-accent">.</span>
         </Link>
 

@@ -1,18 +1,25 @@
 /**
- * Project content model.
+ * Project content model — backed by MDX files in content/projects/.
  *
- * These entries are PLACEHOLDERS shaped to the case-study "frontmatter
- * contract" (title, summary, tags, stack, featured, date, links, metrics).
- * In Step 3 the same `Project` type and helpers stay, but the data source
- * is swapped to MDX files under content/projects/ — so nothing that reads
- * from here needs to change. Replace these with your real projects.
+ * Each project is one .mdx file: YAML frontmatter (the fields below) plus a
+ * markdown body holding the case-study sections. Adding a project = adding a
+ * file; nothing in the app needs to change. The `Project` type and the helper
+ * functions are the stable contract every page reads through.
+ *
+ * Server-only: these functions touch the filesystem, so import them from
+ * Server Components (or pass their serializable results down to Client ones).
  */
+import fs from "node:fs";
+import path from "node:path";
+import matter from "gray-matter";
+
 export type ProjectLinks = {
   repo?: string;
   demo?: string;
   writeup?: string;
 };
 
+/** Metadata parsed from a project's frontmatter (safe to send to the client). */
 export type Project = {
   slug: string;
   title: string;
@@ -24,66 +31,58 @@ export type Project = {
   /** ISO date (YYYY-MM-DD). */
   date: string;
   links: ProjectLinks;
-  metrics?: Record<string, string | number>;
+  metrics: Record<string, string>;
 };
 
-export const projects: Project[] = [
-  {
-    slug: "churn-prediction-xgboost",
-    title: "Predicting Customer Churn with XGBoost",
-    summary:
-      "Cut churn false-negatives by 32% with a calibrated gradient-boosted model on 40k telecom records.",
-    tags: ["ml", "classification"],
-    stack: ["python", "xgboost", "scikit-learn", "pandas"],
-    featured: true,
-    date: "2026-03-01",
-    links: { repo: "#", writeup: "#" },
-    metrics: { AUC: 0.91, Recall: 0.86 },
-  },
-  {
-    slug: "nyc-taxi-demand-forecast",
-    title: "Forecasting Hourly Ride Demand",
-    summary:
-      "Forecast citywide demand within 8% MAPE to guide fleet positioning, from a reproducible ingestion pipeline.",
-    tags: ["forecasting", "data-eng"],
-    stack: ["python", "airflow", "postgresql", "statsmodels"],
-    featured: true,
-    date: "2026-01-15",
-    links: { repo: "#", demo: "#" },
-    metrics: { MAPE: "8.1%", Horizon: "24h" },
-  },
-  {
-    slug: "retail-sales-story",
-    title: "Where Did the Revenue Go?",
-    summary:
-      "An exec-ready analysis that traced a 14% revenue dip to two underperforming SKUs and a pricing change.",
-    tags: ["analysis", "viz"],
-    stack: ["python", "sql", "plotly"],
-    featured: true,
-    date: "2025-11-20",
-    links: { writeup: "#" },
-    metrics: { Dataset: "2.3M rows" },
-  },
-  {
-    slug: "resume-rag-assistant",
-    title: "A RAG Assistant over a Document Corpus",
-    summary:
-      "Answers natural-language questions over documents with cited sources, using embeddings search and an LLM.",
-    tags: ["nlp", "genai"],
-    stack: ["python", "pytorch", "fastapi", "faiss"],
-    featured: false,
-    date: "2025-10-05",
-    links: { repo: "#", demo: "#" },
-    metrics: { "Top-k recall": "0.93" },
-  },
-];
+const PROJECTS_DIR = path.join(process.cwd(), "content", "projects");
+
+function toStringRecord(value: unknown): Record<string, string> {
+  if (!value || typeof value !== "object") return {};
+  return Object.fromEntries(
+    Object.entries(value as Record<string, unknown>).map(([k, v]) => [
+      k,
+      String(v),
+    ]),
+  );
+}
+
+function parseProject(slug: string, frontmatter: Record<string, unknown>): Project {
+  return {
+    slug,
+    title: String(frontmatter.title ?? slug),
+    summary: String(frontmatter.summary ?? ""),
+    tags: Array.isArray(frontmatter.tags) ? frontmatter.tags.map(String) : [],
+    stack: Array.isArray(frontmatter.stack) ? frontmatter.stack.map(String) : [],
+    featured: Boolean(frontmatter.featured),
+    date: String(frontmatter.date ?? ""),
+    links: (frontmatter.links as ProjectLinks) ?? {},
+    metrics: toStringRecord(frontmatter.metrics),
+  };
+}
+
+function slugsFromDisk(): string[] {
+  if (!fs.existsSync(PROJECTS_DIR)) return [];
+  return fs
+    .readdirSync(PROJECTS_DIR)
+    .filter((f) => f.endsWith(".mdx"))
+    .map((f) => f.replace(/\.mdx$/, ""));
+}
 
 function byDateDesc(a: Project, b: Project) {
   return b.date.localeCompare(a.date);
 }
 
+/** All projects (metadata only), newest first. */
 export function getAllProjects(): Project[] {
-  return [...projects].sort(byDateDesc);
+  return slugsFromDisk()
+    .map((slug) => {
+      const file = fs.readFileSync(
+        path.join(PROJECTS_DIR, `${slug}.mdx`),
+        "utf8",
+      );
+      return parseProject(slug, matter(file).data);
+    })
+    .sort(byDateDesc);
 }
 
 export function getFeaturedProjects(limit = 3): Project[] {
@@ -92,6 +91,19 @@ export function getFeaturedProjects(limit = 3): Project[] {
     .slice(0, limit);
 }
 
-export function getProjectBySlug(slug: string): Project | undefined {
-  return projects.find((p) => p.slug === slug);
+/** A single project's metadata plus its raw MDX body (for the detail page). */
+export function getProject(
+  slug: string,
+): { meta: Project; content: string } | null {
+  const filePath = path.join(PROJECTS_DIR, `${slug}.mdx`);
+  if (!fs.existsSync(filePath)) return null;
+  const { data, content } = matter(fs.readFileSync(filePath, "utf8"));
+  return { meta: parseProject(slug, data), content };
+}
+
+/** All tags across projects, for the index filter. */
+export function getAllTags(): string[] {
+  const tags = new Set<string>();
+  for (const p of getAllProjects()) p.tags.forEach((t) => tags.add(t));
+  return [...tags].sort();
 }

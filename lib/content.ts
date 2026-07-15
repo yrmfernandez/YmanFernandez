@@ -15,10 +15,10 @@ export const proofPoints: { value: string; label: string }[] = [
 ];
 
 export const education = {
-  degree: "B.S. Computer Science — Data Science track",
-  school: "Your University",
+  degree: "BS Computer Science — Major in Data Science",
+  school: "Your University", // TODO: add your university
   year: "2026",
-  honors: "Cum Laude", // remove if not applicable
+  honors: "", // TODO: add honors (e.g. "Cum Laude") if applicable, else leave blank
 };
 
 export const coursework: string[] = [

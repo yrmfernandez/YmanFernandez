@@ -1,0 +1,55 @@
+---
+title: "Predicting Customer Churn with XGBoost"
+summary: "Cut churn false-negatives by 32% with a calibrated gradient-boosted model on 40k telecom records."
+tags: [ml, classification]
+stack: [python, xgboost, scikit-learn, pandas]
+featured: true
+date: "2026-03-01"
+links:
+  repo: "#"
+  writeup: "#"
+metrics:
+  AUC: "0.91"
+  Recall: "0.86"
+---
+
+## Context
+
+A telecom provider was losing subscribers faster than its retention team could
+react. The existing rule-based flag ("no usage for 30 days") caught churners far
+too late to intervene. The goal was a model that surfaces at-risk customers
+early enough to act, using a public dataset of ~40,000 accounts with usage,
+billing, and support-contact features.
+
+The hard constraint was **class imbalance** — only ~14% of accounts churned — and
+a business preference to catch churners even at the cost of some false alarms.
+
+## Approach
+
+I framed success around **recall on the minority class**, not raw accuracy, since
+a model that predicts "no churn" for everyone scores 86% accuracy and is useless.
+
+- Started with logistic regression as an interpretable baseline (AUC 0.82).
+- Engineered features around *trend* rather than *state*: month-over-month change
+  in usage, rolling support-ticket counts, and tenure buckets.
+- Moved to XGBoost and tuned with stratified cross-validation, using
+  `scale_pos_weight` to counter the imbalance.
+- Calibrated probabilities with isotonic regression so the retention team could
+  set an intervention threshold they trusted.
+
+What didn't work: aggressive SMOTE oversampling inflated validation scores but
+generalized poorly on the held-out set, so I dropped it in favor of class
+weighting.
+
+## Result
+
+The calibrated XGBoost model reached **AUC 0.91** and lifted minority-class
+recall from 0.65 to 0.86 — a **32% reduction in missed churners** versus the
+logistic baseline, at a threshold the business chose on the calibration curve.
+
+## Reflection
+
+With more time I'd validate on a true out-of-time split rather than a random
+split, since churn behavior drifts seasonally. I'd also instrument the
+intervention step to measure *lift on retained revenue*, which is the metric the
+business ultimately cares about — model recall is only a proxy for it.

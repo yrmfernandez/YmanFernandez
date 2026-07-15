@@ -13,7 +13,7 @@ export function SiteFooter() {
       <div className="container-page flex flex-col gap-8 py-12 sm:flex-row sm:justify-between">
         <div className="max-w-xs">
           <div className="font-serif text-lg font-semibold text-ink">
-            {site.name}
+            {site.shortName}
             <span className="text-accent">.</span>
           </div>
           <p className="mt-2 text-sm text-muted">{site.role}</p>

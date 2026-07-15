@@ -1,0 +1,51 @@
+---
+title: "Forecasting Hourly Ride Demand"
+summary: "Forecast citywide demand within 8% MAPE to guide fleet positioning, from a reproducible ingestion pipeline."
+tags: [forecasting, data-eng]
+stack: [python, airflow, postgresql, statsmodels]
+featured: true
+date: "2026-01-15"
+links:
+  repo: "#"
+  demo: "#"
+metrics:
+  MAPE: "8.1%"
+  Horizon: "24h"
+---
+
+## Context
+
+Fleet operators reposition vehicles ahead of demand, but they were working off
+last week's averages — blind to weather, holidays, and local events. I built an
+end-to-end pipeline that ingests raw trip records, aggregates them to hourly
+demand per zone, and forecasts the next 24 hours.
+
+The emphasis was as much on the **data engineering** as the model: the forecast
+is only useful if it runs unattended every day on fresh data.
+
+## Approach
+
+I split the problem into ingestion and modeling.
+
+- **Ingestion** — an Airflow DAG pulls the daily trip dump, validates schema and
+  row counts, and loads hourly aggregates into PostgreSQL. Bad loads fail loudly
+  rather than silently corrupting the training table.
+- **Modeling** — began with a seasonal-naive baseline (predict last week, same
+  hour), then SARIMA to capture daily and weekly seasonality, adding calendar
+  and weather features as exogenous regressors.
+
+The seasonal-naive baseline was a deliberate choice: it set a bar the "real"
+model had to clear, and it turned out to be surprisingly strong on ordinary days.
+
+## Result
+
+The final model forecasts hourly demand within **8.1% MAPE** across a 24-hour
+horizon — a clear improvement over the 13% baseline, with the biggest gains on
+event and holiday days where the naive method failed badly.
+
+## Reflection
+
+The pipeline is the part I'm most proud of and also where I'd invest next: adding
+data-quality tests (row-count deltas, null-rate checks) as first-class Airflow
+tasks, and backfilling a longer history to model annual seasonality, which a few
+months of data can't capture.
