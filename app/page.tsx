@@ -11,6 +11,8 @@ import { getFeaturedProjects } from "@/lib/projects";
 import { ButtonLink } from "@/components/button-link";
 import { ProjectCard } from "@/components/project-card";
 import { HeroPlot } from "@/components/hero-plot";
+import { Reveal } from "@/components/reveal";
+import { LiquidGlass } from "@/components/ui/liquid-glass";
 
 const personJsonLd = {
   "@context": "https://schema.org",
@@ -37,40 +39,52 @@ export default function Home() {
         <div className="ambient" aria-hidden="true" />
         <HeroPlot className="pointer-events-none absolute -right-10 top-8 hidden h-64 w-[28rem] opacity-70 lg:block" />
         <div className="container-page relative py-20 sm:py-28">
-          <p className="eyebrow flex items-center gap-3">
-            <span className="inline-block h-px w-6 bg-accent" />
-            {site.name} · {site.role}
-          </p>
+          <Reveal delay={0}>
+            <p className="eyebrow flex items-center gap-3">
+              <span className="inline-block h-px w-6 bg-accent" />
+              {site.name} · {site.role}
+            </p>
+          </Reveal>
 
-          <h1 className="mt-6 max-w-[18ch] font-serif text-4xl font-semibold leading-[1.06] sm:text-5xl md:text-6xl">
-            Turning messy data into models, decisions, and clear stories.
-          </h1>
+          <Reveal delay={0.1}>
+            <h1 className="mt-6 max-w-[18ch] font-serif text-4xl font-semibold leading-[1.06] sm:text-5xl md:text-6xl">
+              Turning messy data into models, decisions, and clear stories.
+            </h1>
+          </Reveal>
 
-          <p className="mt-6 max-w-[54ch] text-lg text-muted">{site.tagline}</p>
+          <Reveal delay={0.2}>
+            <p className="mt-6 max-w-[54ch] text-lg text-muted">
+              {site.tagline}
+            </p>
+          </Reveal>
 
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <ButtonLink href="/projects">View projects</ButtonLink>
-            <ButtonLink href="/resume" variant="ghost">
-              Resume
-            </ButtonLink>
-          </div>
+          <Reveal delay={0.3}>
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <ButtonLink href="/projects">View projects</ButtonLink>
+              <ButtonLink href="/resume" variant="ghost">
+                Resume
+              </ButtonLink>
+            </div>
+          </Reveal>
 
-          <p className="mt-8 flex items-center gap-2.5 font-mono text-sm text-muted">
-            <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
-            {proofStatement}
-          </p>
+          <Reveal delay={0.4}>
+            <p className="mt-8 flex items-center gap-2.5 font-mono text-sm text-muted">
+              <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
+              {proofStatement}
+            </p>
+          </Reveal>
         </div>
       </section>
 
       {/* ---- Featured projects -------------------------------------- */}
       <section className="container-page py-16 sm:py-20">
         <div className="flex items-end justify-between gap-4">
-          <div>
+          <Reveal>
             <p className="eyebrow">Selected work</p>
             <h2 className="mt-2 font-serif text-3xl font-semibold">
               Featured projects
             </h2>
-          </div>
+          </Reveal>
           <Link
             href="/projects"
             className="hidden shrink-0 font-mono text-sm text-accent-strong no-underline hover:underline sm:inline"
@@ -162,23 +176,25 @@ export default function Home() {
 
       {/* ---- Closing CTA -------------------------------------------- */}
       <section className="container-page pb-20">
-        <div className="glass rounded-3xl px-8 py-12 text-center">
-          <h2 className="mx-auto max-w-[20ch] font-serif text-3xl font-semibold">
-            Looking for a data scientist to grow with your team?
-          </h2>
-          <p className="mx-auto mt-3 max-w-[46ch] text-muted">
-            I&apos;m open to entry-level and internship roles in data science
-            and analytics.
-          </p>
-          <div className="mt-7 flex flex-wrap justify-center gap-3">
-            <ButtonLink href={`mailto:${site.email}`} external>
-              Get in touch
-            </ButtonLink>
-            <ButtonLink href="/resume" variant="ghost">
-              View resume
-            </ButtonLink>
-          </div>
-        </div>
+        <Reveal>
+          <LiquidGlass className="rounded-3xl px-8 py-12 text-center">
+            <h2 className="mx-auto max-w-[20ch] font-serif text-3xl font-semibold">
+              Looking for a data scientist to grow with your team?
+            </h2>
+            <p className="mx-auto mt-3 max-w-[46ch] text-muted">
+              I&apos;m open to entry-level and internship roles in data science
+              and analytics.
+            </p>
+            <div className="mt-7 flex flex-wrap justify-center gap-3">
+              <ButtonLink href={`mailto:${site.email}`} external>
+                Get in touch
+              </ButtonLink>
+              <ButtonLink href="/resume" variant="ghost">
+                View resume
+              </ButtonLink>
+            </div>
+          </LiquidGlass>
+        </Reveal>
       </section>
     </>
   );

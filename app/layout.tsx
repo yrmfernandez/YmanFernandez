@@ -3,6 +3,7 @@ import { Source_Serif_4, Public_Sans, IBM_Plex_Mono } from "next/font/google";
 import { site } from "@/lib/site";
 import { SiteNav } from "@/components/nav";
 import { SiteFooter } from "@/components/footer";
+import { GlassFilter } from "@/components/ui/liquid-glass";
 import "./globals.css";
 
 const serif = Source_Serif_4({
@@ -81,6 +82,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: noFlashTheme }} />
       </head>
       <body className="flex min-h-dvh flex-col">
+        <GlassFilter />
         <a
           href="#main"
           className="sr-only rounded-md focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-paper-raised focus:px-4 focus:py-2 focus:text-ink"
