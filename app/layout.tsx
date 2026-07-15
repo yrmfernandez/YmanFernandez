@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Source_Serif_4, Public_Sans, IBM_Plex_Mono } from "next/font/google";
 import { site } from "@/lib/site";
 import { SiteNav } from "@/components/nav";
@@ -31,6 +31,16 @@ export const metadata: Metadata = {
     template: `%s — ${site.name}`,
   },
   description: site.tagline,
+  applicationName: site.name,
+  authors: [{ name: site.name, url: site.socials.github }],
+  creator: site.name,
+  keywords: [
+    "data science",
+    "machine learning",
+    "computer vision",
+    "portfolio",
+    site.name,
+  ],
   openGraph: {
     title: `${site.name} — ${site.role}`,
     description: site.tagline,
@@ -38,6 +48,18 @@ export const metadata: Metadata = {
     siteName: site.name,
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: `${site.name} — ${site.role}`,
+    description: site.tagline,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f0f1ec" },
+    { media: "(prefers-color-scheme: dark)", color: "#131613" },
+  ],
 };
 
 // Runs before first paint to apply a saved theme with no flash of the

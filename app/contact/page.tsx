@@ -68,7 +68,9 @@ export default function ContactPage() {
         {/* Form */}
         <div>
           <p className="eyebrow mb-4">Or send a message</p>
-          <ContactForm />
+          <div className="glass rounded-2xl p-6">
+            <ContactForm />
+          </div>
         </div>
       </div>
     </section>

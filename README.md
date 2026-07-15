@@ -62,7 +62,13 @@ social links across the whole site.
 ## Roadmap
 
 - [x] **Step 1** — Foundation: scaffold, design system, theme toggle, shared shell
-- [ ] **Step 2** — Home page
-- [ ] **Step 3** — Projects index + MDX case-study template
-- [ ] **Step 4** — About, Resume, Contact
-- [ ] **Step 5** — Polish: SEO, accessibility, performance
+- [x] **Step 2** — Home page
+- [x] **Step 3** — Projects index + MDX case-study template
+- [x] **Step 4** — About, Resume, Contact
+- [x] **Step 5** — Polish: glass/3D UI, SEO (sitemap, robots, OG image, JSON-LD), accessibility, performance
+
+## SEO & sharing
+
+- `app/sitemap.ts`, `app/robots.ts`, and `app/manifest.ts` are generated automatically.
+- `app/opengraph-image.tsx` renders the social share card; `app/icon.tsx` renders the favicon.
+- Set `site.url` in [`lib/site.ts`](lib/site.ts) to your real domain so these emit correct absolute URLs.

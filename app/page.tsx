@@ -12,13 +12,29 @@ import { ButtonLink } from "@/components/button-link";
 import { ProjectCard } from "@/components/project-card";
 import { HeroPlot } from "@/components/hero-plot";
 
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: site.name,
+  jobTitle: site.role,
+  email: `mailto:${site.email}`,
+  url: site.url,
+  alumniOf: "University of Southeastern Philippines",
+  sameAs: [site.socials.github, site.socials.linkedin],
+};
+
 export default function Home() {
   const featured = getFeaturedProjects(3);
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+      />
       {/* ---- Hero ---------------------------------------------------- */}
       <section className="relative overflow-hidden border-b border-line">
+        <div className="ambient" aria-hidden="true" />
         <HeroPlot className="pointer-events-none absolute -right-10 top-8 hidden h-64 w-[28rem] opacity-70 lg:block" />
         <div className="container-page relative py-20 sm:py-28">
           <p className="eyebrow flex items-center gap-3">
@@ -146,7 +162,7 @@ export default function Home() {
 
       {/* ---- Closing CTA -------------------------------------------- */}
       <section className="container-page pb-20">
-        <div className="rounded-lg border border-line bg-paper-raised px-8 py-12 text-center">
+        <div className="glass rounded-3xl px-8 py-12 text-center">
           <h2 className="mx-auto max-w-[20ch] font-serif text-3xl font-semibold">
             Looking for a data scientist to grow with your team?
           </h2>

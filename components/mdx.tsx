@@ -59,7 +59,7 @@ const components = {
 
 export function Mdx({ source }: { source: string }) {
   return (
-    <div className="text-[15.5px]">
+    <div className="prose-justify text-[15.5px]">
       <MDXRemote source={source} components={components} />
     </div>
   );

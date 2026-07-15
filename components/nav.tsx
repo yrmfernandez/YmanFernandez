@@ -15,7 +15,7 @@ export function SiteNav() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-paper/85 backdrop-blur-sm print:hidden">
+    <header className="sticky top-0 z-50 border-b border-line/80 bg-[var(--glass-bg)] backdrop-blur-md backdrop-saturate-150 print:hidden">
       <nav className="container-page flex h-16 items-center justify-between gap-4">
         <Link
           href="/"
@@ -31,6 +31,7 @@ export function SiteNav() {
             <Link
               key={item.href}
               href={item.href}
+              aria-current={isActive(item.href) ? "page" : undefined}
               className={`rounded-md px-3 py-2 text-sm no-underline transition-colors ${
                 isActive(item.href)
                   ? "text-ink"
@@ -87,6 +88,7 @@ export function SiteNav() {
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
+                aria-current={isActive(item.href) ? "page" : undefined}
                 className={`rounded-md px-2 py-3 text-sm no-underline ${
                   isActive(item.href) ? "text-ink" : "text-muted"
                 }`}

@@ -24,7 +24,7 @@ export default function AboutPage() {
 
       {/* Narrative — personalize freely */}
       <div className="mt-8 grid gap-12 lg:grid-cols-[minmax(0,1fr)_320px]">
-        <div className="max-w-[60ch] text-[16.5px] leading-[1.75] text-ink/90">
+        <div className="prose-justify max-w-[62ch] text-[16.5px] leading-[1.75] text-ink/90">
           <p>
             I&apos;m a Computer Science graduate from the University of
             Southeastern Philippines, majoring in Data Science. What pulls me to
@@ -58,7 +58,7 @@ export default function AboutPage() {
 
         {/* Education aside */}
         <aside className="lg:pt-1">
-          <div className="rounded-lg border border-line bg-paper-raised p-6">
+          <div className="glass rounded-2xl p-6">
             <p className="eyebrow">Education</p>
             <p className="mt-3 font-serif text-lg font-semibold text-ink">
               {education.degree}
