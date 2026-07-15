@@ -1,0 +1,49 @@
+---
+title: "Project GMS — A Grade Management System"
+summary: "A Streamlit + Supabase app that tracks student enrollment and grades and computes GWA automatically, modeled on USeP's grading system."
+tags: [data-app, dashboard]
+stack: [python, streamlit, supabase, pandas]
+featured: false
+date: "2025-12-15"
+links:
+  repo: "https://github.com/BluffingRay/project-gms"
+metrics: {}
+---
+
+## Context
+
+Managing student grades by hand — across multiple subjects, semesters, and year
+levels — is tedious and error-prone. Project GMS (Grade Management System) is a
+web app that gives educators a single place to track enrollment and academic
+performance, with the weighted average computed for them instead of by
+calculator.
+
+It's modeled on the University of Southeastern Philippines' grading system, so
+the GWA logic matches how grades actually work there.
+
+## Approach
+
+I built it as a lightweight full-stack data app rather than a spreadsheet
+replacement bolted onto a form.
+
+- **Streamlit** for the interface — an enrollment overview with KPIs (total
+  students, grade-completion status), plus screens to edit grades per semester
+  and update student information like year level and program.
+- **Supabase** as the backing database, with credentials kept out of the code
+  via Streamlit's `secrets.toml`.
+- **Automatic GWA computation** so the general weighted average always reflects
+  the latest grades — the part most prone to manual mistakes.
+
+## Result
+
+The core is functional: enrollment tracking, per-semester grade management, and
+live GWA calculation all work end to end against a real database. The project is
+**still in progress** — testing and UI refinement are ongoing — so I'm treating
+it as an evolving build rather than a finished release.
+
+## Reflection
+
+Because the grading logic is tied to one institution's rules, the honest next
+step is to separate that logic from the app so the system could be adapted to
+other schools. I'd also add validation and tests around the GWA computation,
+since it's the one number users will trust without double-checking.

@@ -5,12 +5,12 @@
 
 /** Short proof statement shown near the hero CTAs. */
 export const proofStatement =
-  "4 projects spanning computer vision, ML classification, and applied GenAI.";
+  "5 projects spanning computer vision, ML classification, applied GenAI, and data apps.";
 
 /** Small factual stats for the proof strip. */
 export const proofPoints: { value: string; label: string }[] = [
   { value: "2026", label: "BS Computer Science" },
-  { value: "4", label: "Projects shipped" },
+  { value: "5", label: "Projects shipped" },
   { value: "Data Science", label: "Specialization" },
 ];
 
