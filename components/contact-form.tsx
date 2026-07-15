@@ -70,7 +70,7 @@ export function ContactForm() {
       </div>
       <button
         type="submit"
-        className="inline-flex items-center justify-center gap-2 self-start rounded-md bg-accent px-5 py-2.5 text-sm font-medium text-paper transition-colors hover:bg-accent-strong"
+        className="inline-flex items-center justify-center gap-2 self-start rounded-md bg-accent px-5 py-2.5 text-sm font-medium text-paper transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-strong hover:shadow-[var(--shadow-sm)] active:translate-y-0 active:scale-[0.98] motion-reduce:transform-none"
       >
         Compose email
       </button>

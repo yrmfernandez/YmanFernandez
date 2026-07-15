@@ -39,7 +39,7 @@ export function ProjectsExplorer({
               type="button"
               aria-pressed={isActive}
               onClick={() => setActive(tag)}
-              className={`rounded-full border px-3.5 py-1.5 font-mono text-xs transition-colors ${
+              className={`rounded-full border px-3.5 py-1.5 font-mono text-xs transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 motion-reduce:transform-none ${
                 isActive
                   ? "border-accent bg-accent text-paper"
                   : "border-line text-muted hover:border-accent hover:text-ink"

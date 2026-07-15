@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 type Variant = "primary" | "ghost";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 text-sm font-medium no-underline transition-colors";
+  "inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 text-sm font-medium no-underline transition-all duration-200 will-change-transform hover:-translate-y-0.5 hover:shadow-[var(--shadow-sm)] active:translate-y-0 active:scale-[0.98] motion-reduce:transform-none motion-reduce:transition-none";
 
 const variants: Record<Variant, string> = {
   // `text-paper` flips with the theme, so it stays readable on the accent
