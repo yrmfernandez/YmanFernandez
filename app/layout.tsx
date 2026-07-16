@@ -63,9 +63,9 @@ export const viewport: Viewport = {
   ],
 };
 
-// Runs before first paint to apply a saved theme with no flash of the
-// wrong colors. Kept tiny and inline on purpose.
-const noFlashTheme = `(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();`;
+// Runs before first paint to apply the theme with no flash of the wrong
+// colors. Dark is the default; only an explicit saved choice of "light" wins.
+const noFlashTheme = `(function(){try{var t=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark');}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();`;
 
 export default function RootLayout({
   children,
