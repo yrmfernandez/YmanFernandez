@@ -12,6 +12,7 @@ import { getFeaturedProjects } from "@/lib/projects";
 import { ButtonLink } from "@/components/button-link";
 import { Reveal } from "@/components/reveal";
 import { Portrait } from "@/components/portrait";
+import { HeroPlot } from "@/components/hero-plot";
 
 const personJsonLd = {
   "@context": "https://schema.org",
@@ -41,6 +42,8 @@ export default function Home() {
       {/* ---- Hero: portrait-led ------------------------------------- */}
       <section className="relative overflow-hidden border-b border-line">
         <div className="ambient" aria-hidden="true" />
+        {/* Animated data plot, sitting as a faint backdrop behind the intro. */}
+        <HeroPlot className="pointer-events-none absolute left-[-4rem] top-1/2 hidden h-80 w-[42rem] -translate-y-1/2 opacity-30 md:block lg:opacity-40" />
         <div className="container-page relative grid items-center gap-12 py-16 sm:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:py-24">
           {/* Intro */}
           <div className="order-2 lg:order-1">
