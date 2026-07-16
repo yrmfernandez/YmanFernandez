@@ -3,10 +3,10 @@
 import { useState } from "react";
 
 /**
- * Hero portrait. Looks for /public/portrait.(png|jpg|jpeg|webp) — whichever
- * you drop in works. A transparent HD cutout looks best, but a normal photo is
- * fine (the frame contains it). Until a file exists, an intentional monogram
- * placeholder shows so the layout never looks broken.
+ * Hero portrait — a frameless, background-removed cutout that stands directly
+ * on the hero background (like a portfolio hero image), with a soft accent
+ * glow behind it. Looks for /public/portrait.(png|jpg|jpeg|webp); until one
+ * exists, shows a monogram placeholder so the layout never looks broken.
  */
 const CANDIDATES = [
   "/portrait.png",
@@ -19,34 +19,33 @@ export function Portrait() {
   const [idx, setIdx] = useState(0);
   const exhausted = idx >= CANDIDATES.length;
 
+  if (exhausted) {
+    return (
+      <div className="mx-auto flex aspect-[3/4] w-full max-w-xs items-center justify-center rounded-[2rem] border border-line bg-paper-raised">
+        <span className="font-serif text-7xl font-semibold text-accent-strong">
+          YF
+        </span>
+      </div>
+    );
+  }
+
   return (
-    <div className="relative mx-auto w-full max-w-[22rem]">
-      {/* Accent glow behind the frame for depth. */}
+    <div className="relative flex w-full items-end justify-center lg:justify-end">
+      {/* Soft accent glow behind the subject for depth / edge separation. */}
       <div
         aria-hidden="true"
-        className="absolute -inset-6 -z-10 rounded-[2.5rem] bg-accent/25 blur-3xl"
+        className="absolute bottom-6 left-1/2 -z-10 h-[70%] w-[85%] -translate-x-1/2 rounded-full bg-accent/20 blur-3xl"
       />
-      <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-line bg-gradient-to-b from-accent-soft to-paper-raised shadow-[var(--shadow-lg)]">
-        {!exhausted ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            key={CANDIDATES[idx]}
-            src={CANDIDATES[idx]}
-            alt="Yman Rey M. Fernandez"
-            className="h-full w-full object-cover object-top"
-            onError={() => setIdx((i) => i + 1)}
-          />
-        ) : (
-          <div className="flex h-full w-full flex-col items-center justify-center gap-3">
-            <span className="font-serif text-7xl font-semibold text-accent-strong">
-              YF
-            </span>
-            <span className="rounded-full border border-line bg-paper/60 px-3 py-1 text-center font-mono text-[11px] text-muted">
-              add public/portrait.png
-            </span>
-          </div>
-        )}
-      </div>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={CANDIDATES[idx]}
+        alt="Yman Rey M. Fernandez"
+        onError={() => setIdx((i) => i + 1)}
+        className="relative h-[24rem] w-auto max-w-none object-contain object-bottom sm:h-[28rem] lg:h-[36rem]"
+        style={{
+          filter: "drop-shadow(0 22px 26px rgba(20, 30, 25, 0.22))",
+        }}
+      />
     </div>
   );
 }

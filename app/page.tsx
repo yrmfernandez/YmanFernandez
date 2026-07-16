@@ -43,10 +43,10 @@ export default function Home() {
       <section className="relative overflow-hidden border-b border-line">
         <div className="ambient" aria-hidden="true" />
         {/* Animated data plot, sitting as a faint backdrop behind the intro. */}
-        <HeroPlot className="pointer-events-none absolute left-[-4rem] top-1/2 hidden h-80 w-[42rem] -translate-y-1/2 opacity-30 md:block lg:opacity-40" />
-        <div className="container-page relative grid items-center gap-12 py-16 sm:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:py-24">
+        <HeroPlot className="pointer-events-none absolute left-[-4rem] top-1/3 hidden h-72 w-[38rem] -translate-y-1/2 opacity-25 md:block" />
+        <div className="container-page relative grid gap-8 lg:grid-cols-[1fr_0.82fr] lg:items-end">
           {/* Intro */}
-          <div className="order-2 lg:order-1">
+          <div className="flex flex-col justify-center py-14 lg:min-h-[36rem] lg:py-20">
             <Reveal delay={0}>
               <p className="eyebrow flex items-center gap-2.5">
                 <span className="inline-block h-2 w-2 rounded-full bg-accent" />
@@ -104,8 +104,8 @@ export default function Home() {
             </Reveal>
           </div>
 
-          {/* Portrait */}
-          <Reveal delay={0.2} className="order-1 lg:order-2">
+          {/* Portrait — frameless cutout standing on the background */}
+          <Reveal delay={0.2} className="lg:self-end">
             <Portrait />
           </Reveal>
         </div>
