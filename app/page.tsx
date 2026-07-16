@@ -67,7 +67,7 @@ export default function Home() {
             </Reveal>
 
             <Reveal delay={0.3}>
-              <p className="mt-5 max-w-[52ch] text-[15.5px] leading-relaxed text-muted">
+              <p className="mt-5 max-w-[52ch] text-justify text-[15.5px] leading-relaxed text-muted hyphens-auto">
                 {summary}
               </p>
             </Reveal>

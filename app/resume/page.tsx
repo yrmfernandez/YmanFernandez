@@ -46,7 +46,9 @@ export default function ResumePage() {
         <h2 className="font-mono text-xs uppercase tracking-wider text-accent-strong">
           Summary
         </h2>
-        <p className="mt-3 leading-relaxed text-ink/90">{summary}</p>
+        <p className="mt-3 text-justify leading-relaxed text-ink/90 hyphens-auto">
+          {summary}
+        </p>
       </div>
 
       {/* Skills */}

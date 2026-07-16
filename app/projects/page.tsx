@@ -18,7 +18,7 @@ export default function ProjectsPage() {
       <h1 className="mt-2 font-serif text-4xl font-semibold sm:text-5xl">
         Projects
       </h1>
-      <p className="mt-4 max-w-[58ch] text-lg text-muted">
+      <p className="mt-4 max-w-[58ch] text-justify text-lg text-muted hyphens-auto">
         Each project is written up the same way — context, approach, result, and
         an honest reflection — so you can follow the reasoning, not just the
         output. Filter by focus area below.

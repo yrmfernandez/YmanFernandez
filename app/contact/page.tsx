@@ -20,7 +20,7 @@ export default function ContactPage() {
       <h1 className="mt-2 max-w-[18ch] font-serif text-4xl font-semibold sm:text-5xl">
         Let&apos;s talk.
       </h1>
-      <p className="mt-4 max-w-[52ch] text-lg text-muted">
+      <p className="mt-4 max-w-[52ch] text-justify text-lg text-muted hyphens-auto">
         I&apos;m open to entry-level and internship roles in data science and
         analytics — and happy to chat about any of the projects here.
       </p>
